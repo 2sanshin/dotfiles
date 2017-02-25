@@ -1,0 +1,5 @@
+.zshdir/personal
+.zshdir/.zsh-history*
+.zshdir/.zcompdump*
+.zshdir/.zcompcache/*
+
