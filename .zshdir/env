@@ -1,0 +1,98 @@
+##Set env_var
+
+#export JLESSCHARSET=japanese-euc
+#export LANG=ja_JP.eucJP
+#export LC_CTYPE=ja_JP.eucJP
+#export PAGER=lv
+#export XMODIFIERS="@im=skkinput"
+
+export DISPLAY=:0.0
+
+export LESS='iMx4 --no-init --RAW-CONTROL-CHARS'
+export LESSHISTFILE=-
+export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+
+#export PATH=$HOME/bin:$HOME/Library/Python/2.7/bin:$HOME/.rbenv/bin:$PATH
+export PATH=$HOME/.anyenv/bin:$PATH
+export PATH=$HOME/Library/Python/2.7/bin:$PATH
+export PATH=$HOME/bin:$PATH
+
+# grep
+## バイナリファイルにはマッチさせない。
+GREP_OPTIONS="--binary-files=without-match"
+## grep対象としてディレクトリを指定したらディレクトリ内を再帰的にgrepする。
+#GREP_OPTIONS="--directories=recurse $GREP_OPTIONS"
+## 拡張子が.tmpのファイルは無視する。
+#GREP_OPTIONS="--exclude=\*.tmp $GREP_OPTIONS"
+## 管理用ディレクトリを無視する。
+#if grep --help | grep -q -- --exclude-dir; then
+  GREP_OPTIONS="--exclude-dir=.svn $GREP_OPTIONS"
+  GREP_OPTIONS="--exclude-dir=.git $GREP_OPTIONS"
+  GREP_OPTIONS="--exclude-dir=.deps $GREP_OPTIONS"
+  GREP_OPTIONS="--exclude-dir=.libs $GREP_OPTIONS"
+#fi
+## 可能なら色を付ける。
+#if grep --help | grep -q -- --color; then
+if grep --help 2>&1 | grep -q "color"; then
+  GREP_OPTIONS="--color=auto $GREP_OPTIONS"
+fi
+#grep: 警告: GREP_OPTIONS は廃止されました。alias またはスクリプトを使用してください
+#export GREP_OPTIONS
+alias grep="grep $GREP_OPTIONS"
+
+# Homebrew Cask
+HOMEBREW_CASK_OPTS=--appdir=/Applications
+
+# anyenv (ruby, python, node.js... executable manager)
+if [ -d ${HOME}/.anyenv ] ; then
+  eval "$(anyenv init -)"
+  # for tmux
+#  for D in `ls $HOME/.anyenv/envs`
+#  do
+#    export PATH="$HOME/.anyenv/envs/$D/shims:$PATH"
+#  done
+fi
+
+# rbenv
+#if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# nvm
+#export NVM_DIR=~/.nvm
+#source $(brew --prefix nvm)/nvm.sh
+
+# golang
+export GOPATH=$HOME/.go
+export PATH=$GOPATH/bin:$PATH:
+
+# aws(pip)
+if [ -f /usr/local/bin/aws_zsh_completer.sh ]; then
+    source /usr/local/bin/aws_zsh_completer.sh
+fi
+
+# Powerline(tmux)
+export POWERLINE_NO_SHELL_PROMPT="TRUE"
+source $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+
+# fzf
+source /usr/local/opt/fzf/shell/completion.zsh
+
+# sdkman(gradle, Maven, spring boot... sdk manager)
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+#if [ -f $HOME/.zshdir/functions/_gradle ]; then
+#  source $HOME/.zshdir/functions/_gradle
+#fi
+
+# pip zsh completion start
+function _pip_completion {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] ) )
+}
+compctl -K _pip_completion pip
+# pip zsh completion end
+

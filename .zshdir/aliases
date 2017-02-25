@@ -1,0 +1,36 @@
+#
+if [ `uname` = "FreeBSD" ]; then
+  alias ls='ls -FG'
+elif [ `uname` = "Darwin" ]; then
+  alias ls='ls -FGw'
+  alias top='top -o cpu'
+else
+  alias ls='ls -F'
+fi
+
+alias ll='ls -lh'
+alias la='ls -ah'
+alias lla='ls -lah'
+alias lr='ls -r'
+#alias .='pwd'
+alias cd=' cd'
+alias ..=' cd ../'
+#alias ...='cd ../../'
+#alias po='popd'
+alias pv='ps -auxw | less'
+alias loc='locate'
+alias screen='screen -U' #screen in UTF-8 mode
+#alias vless='/opt/local/share/vim/vim74/macros/less.sh'
+
+#alias kterm='kterm -sb -km euc -bg black -fg white'
+#alias ktermw='kterm -sb -bg white -fg black'
+#alias xterm='xterm -sb -bg black -fg white'
+#alias xtermw='xterm -sb -bg white -fg black'
+
+alias gd='dirs -v; echo -n "select number: "; read newdir; cd +"$newdir"'
+alias myrdesktop='rdesktop -k ja -g 1024x768 -a 16'
+alias myvncserver='vncserver -depth 16'
+#alias jman='LANG=ja_JP.eucJP \jman'
+alias timestamp='date +%s'
+alias jq='jq -C'
+alias history='history -iD'

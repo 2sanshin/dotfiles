@@ -1,0 +1,52 @@
+# delete older zcompdump file by a day
+zcompdump=$ZPLUG_HOME/zcompdump
+if [[ $( date +'%Y%j' ) > $( date -r $zcompdump +'%Y%j' ) ]]; then
+  rm $zcompdump
+fi
+
+source ~/.zplug/init.zsh
+
+zplug "b4b4r07/enhancd", use:init.sh
+zplug "mollifier/anyframe"
+zplug "mollifier/zload"
+zplug "peterhurford/git-it-on.zsh"
+zplug "sindresorhus/pretty-time-zsh"
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+
+
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# config for zsh-syntax-highlighting
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(brackets)
+
+# config for enhancd
+ENHANCD_COMMAND=ecd
+ENHANCD_DOT_SHOW_FULLPATH=1
+
+# load plugin
+zplug load --verbose
+
+# config for anyframe
+#bindkey '^x^s' anyframe-widget-execute-history
+bindkey '^r' anyframe-widget-put-history
+
+##########################
+# anyframe config examples
+##########################
+# expressly specify to use peco
+#zstyle ":anyframe:selector:" use peco
+# expressly specify to use percol
+#zstyle ":anyframe:selector:" use percol
+# expressly specify to use fzf
+#zstyle ":anyframe:selector:" use fzf
+
+# specify path and options for peco, percol, or fzf
+#zstyle ":anyframe:selector:peco:" command 'peco --no-ignore-case'
+#zstyle ":anyframe:selector:percol:" command 'percol --case-sensitive'
+#zstyle ":anyframe:selector:fzf:" command 'fzf --extended'

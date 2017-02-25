@@ -1,3 +1,4 @@
+.zshdir/*.bak*
 .zshdir/personal
 .zshdir/.zsh-history*
 .zshdir/.zcompdump*
